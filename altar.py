@@ -19,6 +19,7 @@ messages=qu.getMessage(1)
 for msg in messages:
     img=image.image(msg.get_body())
     img.downloadFromS3()
+    img.optimize()
     img.uploadToS3()
 
 

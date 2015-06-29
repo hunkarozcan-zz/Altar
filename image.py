@@ -4,6 +4,7 @@ import boto.s3.connection
 import app_settings
 import tempfile
 import logging
+import os
 
 class image():
     id=""
@@ -54,8 +55,10 @@ class image():
 
         b=conn.get_bucket(self.destination_bucket)
         key=b.new_key("/"+self.destination_path)
-        
+        #TODO: Add metadata regarding the type of original file
+        key.set_metadata('Content-Type', 'image/png')
         key.set_contents_from_file(self.tf)
+        
         logging.info("Upload Complete %s",key)
         
 
@@ -77,3 +80,12 @@ class image():
         b=conn.get_bucket(self.destination_bucket)
         key=b.copy_key(backupDir,self.source_bucket,self.source_path)
         logging.info("Copied %s",key)
+
+
+    def optimize(self):
+        # It's png only for now 
+        f = os.popen('optipng '+self.tf.name + " −v -o 2")
+        logging.info("OptiPNG result:"+f.read())
+        
+
+        
