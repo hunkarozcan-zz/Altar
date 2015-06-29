@@ -1,0 +1,37 @@
+{	
+	"source_bucket": "ino-altar", 
+	"source_path": "originals/DSC_0182.jpg",
+	"destination_bucket": "ino-altar",
+	"destination_path": "results/DSC_0182.jpg"
+
+}
+
+
+{	
+	"source_bucket": "ino-altar", 
+	"source_path": "originals/DSC_0305.jpg",
+	"destination_bucket": "ino-altar",
+	"destination_path": "results/DSC_0305.jpg"
+
+}
+
+
+{	
+	"source_bucket": "ino-altar", 
+	"source_path": "originals/IMG_3631.jpg",
+	"destination_bucket": "ino-altar",
+	"destination_path": "results/IMG_3631.jpg"
+
+}
+
+
+{	
+	"source_bucket": "ino-altar", 
+	"source_path": "originals/IMG_3638.jpg",
+	"overwrite": "True",
+	"backup": "True"
+
+}
+
+
+	
