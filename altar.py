@@ -17,14 +17,7 @@ messages=qu.getMessage(1)
 
 
 for msg in messages:
-    #print("Message Body:",msg.get_body())
     img=image.image(msg.get_body())
-    
-    #print("image:",img.source_path)
-    
-    #qu.getAltarProperties(msg)
-    #print("Serialized:",qu.getAltarProperties(msg))
-    
     img.downloadFromS3()
     img.uploadToS3()
 

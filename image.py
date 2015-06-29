@@ -19,7 +19,6 @@ class image():
 
 
     def __init__(self,json_data):
-        #print("Image Initializing...")
         j=json.loads(json_data)
         logging.info("Image Initializing from data:%s",j)
         self.source_bucket=j["source_bucket"]

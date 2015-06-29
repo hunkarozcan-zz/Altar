@@ -6,8 +6,7 @@ import logging
 
 class Sqs:
     def __init__(self):
-        #print("Sqs Initializing...")
-
+        
         conf=app_settings.Config()
         
         conn = boto.sqs.connect_to_region(
@@ -16,9 +15,7 @@ class Sqs:
         aws_secret_access_key   = conf.aws_secret_access_key
         )
         
-        		
         self.q = conn.get_queue(conf.sqsName)
-        #print(self.q)
 
     def getMessage(self,count):
         msgs = self.q.get_messages(count)
