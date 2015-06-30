@@ -16,6 +16,7 @@ class image():
     overwrite=False
     backup=True
     size=0
+    tempFilePath=""
     conf=app_settings.Config()
 
 
@@ -42,12 +43,21 @@ class image():
         self.tf = tempfile.NamedTemporaryFile(delete=False)
 
         b=conn.get_bucket(self.source_bucket)
+
         key=b.get_key("/"+self.source_path)
-        key.get_contents_to_file(self.tf)
-        self.size = self.tf.tell()
-        self.tf.seek(0)
-        logging.info("Image downloaded:%s",self.size)
-        print(self.tf.name)
+        
+        if key is None:
+            logging.error("File not found!")
+            return False
+        else:
+            key.get_contents_to_file(self.tf)
+            self.size = self.tf.tell()
+            self.tf.seek(0)
+            logging.info("Image downloaded:%s",self.size)
+            self.tempFilePath=self.tf.name
+            self.tf.close()
+            print(self.tf.name)
+            return True
 
     def uploadToS3(self):
         if self.backup:
@@ -59,7 +69,10 @@ class image():
         key=b.new_key("/"+self.destination_path)
         #TODO: Add metadata regarding the type of original file
         key.set_metadata('Content-Type', 'image/png')
-        key.set_contents_from_file(self.tf)
+        #self.tf.open()
+        #file=open(self.tempFilePath,'r')
+        #TODO: Log new file size
+        key.set_contents_from_file(open(self.tempFilePath,'rb'))
         
         logging.info("Upload Complete %s",key)
         
@@ -89,5 +102,5 @@ class image():
         f = os.popen('optipng '+self.tf.name + " −v -o 2")
         logging.info("OptiPNG result:"+f.read())
         
-
+    
         
