@@ -1,0 +1,8 @@
+
+
+30.06.2015
+
+- Jpeg optimization
+- Cloudwatch support for reporting
+- Error Handling
+- Setup.py
