@@ -44,7 +44,9 @@ class image():
         b=conn.get_bucket(self.source_bucket)
         key=b.get_key("/"+self.source_path)
         key.get_contents_to_file(self.tf)
+        self.size = self.tf.tell()
         self.tf.seek(0)
+        logging.info("Image downloaded:%s",self.size)
         print(self.tf.name)
 
     def uploadToS3(self):
