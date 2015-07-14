@@ -6,7 +6,7 @@ It's my first python project and is under heavy construction, meaning NOT WORKIN
 
 Features
 * Png optimization with optiPNG
-
+* Cloudwatch Support
 
 Current state: 
 * Png optimization only
