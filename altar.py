@@ -1,4 +1,4 @@
-import app_settings
+﻿import app_settings
 import sqs
 import image
 import logging
