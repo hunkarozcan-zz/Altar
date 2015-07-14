@@ -1,4 +1,4 @@
-import json
+﻿import json
 import boto.s3
 import boto.s3.connection
 import app_settings
@@ -7,6 +7,7 @@ import logging
 import subprocess
 import os
 import imghdr
+import cloudwatch
 
 
 class image():
@@ -19,9 +20,13 @@ class image():
     overwrite=False
     backup=True
     size=0
+    optimized_size=0
+    ratio=0
+    percentage=0
+    type=""
     tempFilePath=""
     conf=app_settings.Config()
-
+    cw=cloudwatch.Cloudwatch()
 
     def __init__(self,json_data):
         j=json.loads(json_data)
@@ -56,6 +61,7 @@ class image():
             self.tempFilePath=self.tf.name
             self.tf.close()
             print(self.tf.name)
+            self.cw.send_metric(name="Downloaded Data",unit="Bytes",value=self.size)
             return True
 
     def uploadToS3(self):
@@ -66,13 +72,15 @@ class image():
 
         b=conn.get_bucket(self.destination_bucket)
         key=b.new_key("/"+self.destination_path)
-        #TODO: Add metadata regarding the type of original file
-        key.set_metadata('Content-Type', 'image/png')
-        #self.tf.open()
-        #file=open(self.tempFilePath,'r')
-        #TODO: Log new file size
-        key.set_contents_from_file(open(self.tempFilePath,'rb'))
         
+        if self.type=="png":
+            key.set_metadata('Content-Type', 'image/png')
+        elif self.type=="jpeg":
+            key.set_metadata('Content-Type', 'image/jpeg')
+
+        
+        key.set_contents_from_file(open(self.tempFilePath,'rb'))
+        self.cw.send_metric(name="Uploaded Data",unit="Bytes",value=self.optimized_size)
         logging.info("Upload Complete %s",key)
         
 
@@ -95,21 +103,45 @@ class image():
         key=b.copy_key(backupDir,self.source_bucket,self.source_path)
         logging.info("Copied %s",key)
 
+    def check_results(self):
+        logging.info("Checking Results")
+        if self.optimized_size!=0 or self.size==0:
+            self.ratio=self.optimized_size/self.size
+            self.percentage=100-(self.optimized_size*100/self.size)
+            
+            if self.ratio<1.0:
+                logging.info("Optimization is success with a rate of %{}".format(self.percentage))
+                return True
+            elif self.ratio==1.0:
+                logging.warning("This file is already optimized. Result is equal to original ({}/{})".format(self.optimized_size,self.size))
+                return False
+            else:
+                logging.warning("Optimization is a failure. Result is larger than original ({}/{}):( ".format(self.optimized_size,self.size))
+                return False
+        else:
+            logging.error("Optimization failed. Result too good to be true o_O Size is 0 :( File is missing I guess")
+            return False
 
     def optimize(self):
-        # It's png only for now 
-        # f = os.popen('optipng '+self.tf.name + " −v -o 2")
         
         img_type=self.get_image_type()
-        logging.info("Image type : "+img_type)
-        
-        f=subprocess.check_output('optipng {} -o 2'.format(self.tf.name),
-            stderr=subprocess.STDOUT)
-        #print('Have %d bytes in f' % len(f))
-        #print(f)
+        if img_type=='png':
+	        # It's a png, optipng is the way!
+            f=subprocess.check_output('optipng {} -o 2'.format(self.tf.name),
+		        stderr=subprocess.STDOUT)
+        elif img_type=='jpeg':
+	        # "jpg is the file, use jpegoptim you must" -Yoda
+            f=subprocess.check_output('jpegoptim {}'.format(self.tf.name),
+		        stderr=subprocess.STDOUT)
+        else:
+            logging.error("Unsupported file type: "+img_type)
+            raise ValueError('Unsupported file type',img_type)
 
-        logging.info("OptiPNG result:"+f.decode("utf-8"))
-        
+        logging.info("Optimization result:"+f.decode("utf-8"))
+        self.optimized_size=os.path.getsize(self.tf.name)
+        logging.info("Result file size:{}".format(self.optimized_size))
         
     def get_image_type(self):
-        return imghdr.what(self.tf.name)
+        self.type=imghdr.what(self.tf.name)
+        logging.info("Image type : "+self.type)
+        return self.type
