@@ -31,7 +31,7 @@ while True:
                     logging.warning("No need to Upload")
 
                 msg.delete()
-            except:
+            except: 
                 #TODO: Do something meaningful with this
                 logging.error("Error")
                 cw.send_metric(name="Error Count",unit="Count",value="1.0")
