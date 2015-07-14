@@ -43,6 +43,8 @@ Temporary Items
 .apdisk
 altar.log
 *.pyc
+*.pyproj
+*.sln
 __pycache__
 /nbproject/private/
 nbproject/project.properties
