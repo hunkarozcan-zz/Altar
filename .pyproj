@@ -27,6 +27,9 @@
   <ItemGroup>
     <Compile Include="altar.py" />
     <Compile Include="app_settings.py" />
+    <Compile Include="cloudwatch.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="image.py" />
     <Compile Include="sqs.py" />
   </ItemGroup>
