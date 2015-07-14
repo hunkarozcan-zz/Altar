@@ -2,7 +2,6 @@ import app_settings
 import sqs
 import image
 import logging
-import sys
 
 conf=app_settings.Config()
 qu=sqs.Sqs()

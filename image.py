@@ -4,7 +4,10 @@ import boto.s3.connection
 import app_settings
 import tempfile
 import logging
+import subprocess
 import os
+import imghdr
+
 
 class image():
     id=""
@@ -27,7 +30,7 @@ class image():
         self.source_path=j["source_path"]
         self.overwrite=j.get("overwrite",False)
         self.backup=j.get("backup",True)
-        print(self.overwrite)
+        
         if self.overwrite:
             logging.info("Set to Overwrite!")
             self.destination_bucket=self.source_bucket
@@ -37,13 +40,9 @@ class image():
             self.destination_path=j.get("destination_path","")
 
     def downloadFromS3(self):
-
         conn=self.connectToS3()
-
         self.tf = tempfile.NamedTemporaryFile(delete=False)
-
         b=conn.get_bucket(self.source_bucket)
-
         key=b.get_key("/"+self.source_path)
         
         if key is None:
@@ -99,8 +98,18 @@ class image():
 
     def optimize(self):
         # It's png only for now 
-        f = os.popen('optipng '+self.tf.name + " −v -o 2")
-        logging.info("OptiPNG result:"+f.read())
+        # f = os.popen('optipng '+self.tf.name + " −v -o 2")
         
-    
+        img_type=self.get_image_type()
+        logging.info("Image type : "+img_type)
         
+        f=subprocess.check_output('optipng {} -o 2'.format(self.tf.name),
+            stderr=subprocess.STDOUT)
+        #print('Have %d bytes in f' % len(f))
+        #print(f)
+
+        logging.info("OptiPNG result:"+f.decode("utf-8"))
+        
+        
+    def get_image_type(self):
+        return imghdr.what(self.tf.name)
