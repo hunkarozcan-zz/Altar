@@ -1,4 +1,4 @@
-import boto.sqs
+﻿import boto.sqs
 import app_settings
 import json
 import logging
@@ -18,7 +18,7 @@ class Sqs:
         self.q = conn.get_queue(conf.sqsName)
 
     def getMessage(self,count):
-        msgs = self.q.get_messages(count)
+        msgs = self.q.get_messages(count,wait_time_seconds=2)
         logging.info("Got %s message(s)" % len(msgs))
         return msgs
         
