@@ -44,3 +44,7 @@ Temporary Items
 altar.log
 *.pyc
 __pycache__
+nbproject/private/private.properties
+nbproject/private/private.xml
+*.properties
+nbproject/project.xml
