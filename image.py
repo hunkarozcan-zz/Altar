@@ -138,5 +138,5 @@ class image():
         
     def get_image_type(self):
         self.type=imghdr.what(self.tf.name)
-        logging.info("Image type : "+self.type)
+        logging.info("Image type {}: ".format(self.type))
         return self.type
