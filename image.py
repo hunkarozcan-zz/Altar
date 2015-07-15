@@ -124,18 +124,15 @@ class image():
         img_type=self.get_image_type()
         if img_type=='png':
 	        # It's a png, optipng is the way!
-            com='optipng {} -o 2'.format(self.tf.name)
-            print(com)
             f=subprocess.check_output(['optipng', self.tf.name, '-o 2'])
         elif img_type=='jpeg':
 	        # "jpg is the file, use jpegoptim you must" -Yoda
-            f=subprocess.check_output('jpegoptim {}'.format(self.tf.name),
-		        stderr=subprocess.STDOUT)
+            f=subprocess.check_output(['jpegoptim',self.tf.name])
         else:
             logging.error("Unsupported file type: "+img_type)
             raise ValueError('Unsupported file type',img_type)
 
-        logging.info("Optimization result:"+f.decode("utf-8"))
+        #logging.info("Optimization result:"+f.decode("utf-8"))
         self.optimized_size=os.path.getsize(self.tf.name)
         logging.info("Result file size:{}".format(self.optimized_size))
         
