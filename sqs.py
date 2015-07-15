@@ -16,6 +16,9 @@ class Sqs:
         )
         
         self.q = conn.get_queue(conf.sqsName)
+        if self.q==None:
+            raise
+
         print(conn)
 
     def getMessage(self,count):
