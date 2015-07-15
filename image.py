@@ -129,8 +129,8 @@ class image():
 	        # "jpg is the file, use jpegoptim you must" -Yoda
             f=subprocess.check_output(['jpegoptim',self.tf.name])
         else:
-            logging.error("Unsupported file type: "+img_type)
-            raise ValueError('Unsupported file type',img_type)
+            logging.error("Unsupported file type: {}".format(img_type))
+            raise ValueError('Unsupported file type: {}'.format(img_type))
 
         #logging.info("Optimization result:"+f.decode("utf-8"))
         self.optimized_size=os.path.getsize(self.tf.name)
