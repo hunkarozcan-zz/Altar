@@ -2,16 +2,19 @@
 
 Altar is a cloud based image optimization solution. It uses OptiPNG(1) and JpegOptim(2) for image transformation.
 
-It's my first python project and is under heavy construction, meaning NOT WORKING for now. :/
+It's my first python project and is under heavy construction, meaning NOT WORKING for now. :/ *
+
+* Hurray! It's working :)
+
 
 Features
 * Png optimization with optiPNG
+* Jpeg optimization with jpegOptim
 * Cloudwatch Support
 
 Current state: 
-* Png optimization only
-* No exception handling
-* Application works for one time for easy debugging, no infinite loop
+* Insufficient exception handling
+* Code quality below zero.
 
 All contributions and comments are welcome.
 
