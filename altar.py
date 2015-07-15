@@ -16,7 +16,10 @@ logging.info('Altar Started')
 
 while True:
 
-    messages=qu.getMessage(1)
+    try:
+        messages=qu.getMessage(1)
+    except:
+        logging.error("Couldn't get messages")
 
     for msg in messages:
         img=image.image(msg.get_body())
