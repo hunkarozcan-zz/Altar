@@ -85,10 +85,7 @@ class image():
         
 
     def connectToS3(self):
-        c = boto.connect_s3(
-        aws_access_key_id       = self.conf.aws_access_key_id,
-        aws_secret_access_key   = self.conf.aws_secret_access_key
-        )
+        c = boto.connect_s3()
         return c
 
     def replace_last(self, source_string, replace_what, replace_with):
