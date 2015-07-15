@@ -36,7 +36,7 @@ while True:
                     #TODO: Do something meaningful with this
                     logging.error("Error")
                     cw.send_metric(name="Error Count",unit="Count",value="1.0")
-                    raise
+                    #raise
             else:
                 logging.error("Couldn't download File")
     except:
