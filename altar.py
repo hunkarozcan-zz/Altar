@@ -18,6 +18,7 @@ while True:
 
     try:
         messages=qu.getMessage(1)
+        print(messages)
         for msg in messages:
             img=image.image(msg.get_body())
             if img.downloadFromS3():
