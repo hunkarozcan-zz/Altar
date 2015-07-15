@@ -16,6 +16,7 @@ class Sqs:
         )
         
         self.q = conn.get_queue(conf.sqsName)
+        print(conn)
 
     def getMessage(self,count):
         msgs = self.q.get_messages(count,wait_time_seconds=2)

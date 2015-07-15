@@ -17,7 +17,7 @@ logging.info('Altar Started')
 while True:
 
     try:
-        print(qu)
+        #print(qu)
         messages=qu.getMessage(1)
         print(messages)
         for msg in messages:
