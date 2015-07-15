@@ -93,7 +93,7 @@ class image():
         return head + replace_with + tail
 
     def backupFile(self):
-        backupDir=self.replace_last(self.source_path,"/","/backup/")
+        backupDir=self.replace_last(self.destination_path,"/","/backup/")
         logging.info("Need Backup, Backing Up to <%s>",backupDir)
         conn=self.connectToS3()
         b=conn.get_bucket(self.destination_bucket)
@@ -127,7 +127,7 @@ class image():
             f=subprocess.check_output(['optipng', self.tf.name, '-o 2'])
         elif img_type=='jpeg':
 	        # "jpg is the file, use jpegoptim you must" -Yoda
-            f=subprocess.check_output(['jpegoptim',self.tf.name])
+            f=subprocess.check_output(['jpegoptim',self.tf.name,'-v'])
         else:
             logging.error("Unsupported file type: {}".format(img_type))
             raise ValueError('Unsupported file type: {}'.format(img_type))
