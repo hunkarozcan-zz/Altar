@@ -9,9 +9,8 @@ class Cloudwatch(object):
     def __init__(self):
         
         self.conf=app_settings.Config()
-        print(self.conf.region)
         self.conn = cw.connect_to_region(self.conf.region)
-        print(self.conn)
+       
 
     def send_metric(self, name, unit, value):
         try:
