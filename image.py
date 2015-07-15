@@ -57,7 +57,7 @@ class image():
             key.get_contents_to_file(self.tf)
             self.size = self.tf.tell()
             self.tf.seek(0)
-            logging.info("Image downloaded:%s",self.size)
+            logging.info("Image downloaded:%s - %s",self.size,self.tf.name)
             self.tempFilePath=self.tf.name
             self.tf.close()
             print(self.tf.name)

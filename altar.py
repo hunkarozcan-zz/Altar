@@ -37,6 +37,8 @@ while True:
                     logging.error("Error")
                     cw.send_metric(name="Error Count",unit="Count",value="1.0")
                     raise
+            else:
+                logging.error("Couldn't download File")
     except:
         logging.error("Couldn't get messages")
         raise
