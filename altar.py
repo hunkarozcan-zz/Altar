@@ -38,5 +38,6 @@ while True:
                     raise
     except:
         logging.error("Couldn't get messages")
+        raise
 
 logging.info('Altar Ended')
