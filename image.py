@@ -25,6 +25,7 @@ class image():
     percentage=0
     type=""
     tempFilePath=""
+    target_quality=80;
     conf=app_settings.Config()
     cw=cloudwatch.Cloudwatch()
 
@@ -35,6 +36,7 @@ class image():
         self.source_path=j["source_path"]
         self.overwrite=j.get("overwrite",False)
         self.backup=j.get("backup",True)
+        self.target_quality=j.get("target_quality",80)
         
         if self.overwrite:
             logging.info("Set to Overwrite!")
@@ -130,7 +132,7 @@ class image():
                 f=subprocess.check_output(['PngOptimizerCL', '-file:"'+self.tf.name+'"'])
             elif img_type=='jpeg':
 	            # "jpg is the file, use jpegoptim you must" -Yoda
-                f=subprocess.check_output(['jpegoptim',self.tf.name,'-m80'])
+                f=subprocess.check_output(['jpegoptim',self.tf.name,'-m'+self.target_quality])
             else:
                 logging.error("Unsupported file type: {}".format(img_type))
                 raise ValueError('Unsupported file type: {}'.format(img_type))
