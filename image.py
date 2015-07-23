@@ -133,7 +133,7 @@ class image():
             logging.error("Unsupported file type: {}".format(img_type))
             raise ValueError('Unsupported file type: {}'.format(img_type))
 
-        #logging.info("Optimization result:"+f.decode("utf-8"))
+        logging.info("Optimization result:"+f.decode("utf-8"))
         self.optimized_size=os.path.getsize(self.tf.name)
         logging.info("Result file size:{}".format(self.optimized_size))
         
