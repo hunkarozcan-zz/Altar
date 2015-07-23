@@ -1,7 +1,6 @@
 
-
-30.06.2015
-
-- Jpeg optimization
-- Error Handling
+- Better Error Handling
+- Handle keyboard interrupt
+- Send byte difference to cloudwatch 
 - Setup.py
+
