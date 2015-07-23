@@ -46,7 +46,8 @@ class image():
 
     def downloadFromS3(self):
         conn=self.connectToS3()
-        self.tf = tempfile.NamedTemporaryFile(delete=False)
+        # set tempfile suffix to .png whether file is png or not because of PngOptimizerCL's weird suffix check. :/
+        self.tf = tempfile.NamedTemporaryFile(delete=False, suffix=".png")
         b=conn.get_bucket(self.source_bucket)
         key=b.get_key("/"+self.source_path)
         
@@ -125,6 +126,7 @@ class image():
             if img_type=='png':
 	            # It's a png, optipng is the way!
                 # f=subprocess.check_output(['optipng', self.tf.name, '-o 2'])
+                
                 f=subprocess.check_output(['PngOptimizerCL', '-file:"'+self.tf.name+'"'])
             elif img_type=='jpeg':
 	            # "jpg is the file, use jpegoptim you must" -Yoda
