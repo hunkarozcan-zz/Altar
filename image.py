@@ -125,7 +125,7 @@ class image():
         if img_type=='png':
 	        # It's a png, optipng is the way!
             # f=subprocess.check_output(['optipng', self.tf.name, '-o 2'])
-            f=subprocess.check_output(['PngOptimizerCL', self.tf.name])
+            f=subprocess.check_output(['PngOptimizerCL', '--file:',self.tf.name])
         elif img_type=='jpeg':
 	        # "jpg is the file, use jpegoptim you must" -Yoda
             f=subprocess.check_output(['jpegoptim',self.tf.name,'-v'])
