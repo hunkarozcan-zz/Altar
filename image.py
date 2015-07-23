@@ -130,7 +130,7 @@ class image():
                 f=subprocess.check_output(['PngOptimizerCL', '-file:"'+self.tf.name+'"'])
             elif img_type=='jpeg':
 	            # "jpg is the file, use jpegoptim you must" -Yoda
-                f=subprocess.check_output(['jpegoptim',self.tf.name,'-v'])
+                f=subprocess.check_output(['jpegoptim',self.tf.name,'-m80'])
             else:
                 logging.error("Unsupported file type: {}".format(img_type))
                 raise ValueError('Unsupported file type: {}'.format(img_type))
