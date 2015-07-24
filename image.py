@@ -67,6 +67,7 @@ class image():
             
             if self.ratio<1.0:
                 logging.info("Optimization is success with a rate of %{}".format(self.percentage))
+                self.cw.send_saving(self.size-self.optimized_size)
                 return True
             elif self.ratio==1.0:
                 logging.warning("This file is already optimized. Result is equal to original ({}/{})".format(self.optimized_size,self.size))

@@ -45,5 +45,11 @@ class Cloudwatch(object):
         Metric Name: Optimized Count
         """
         self.__send_metric(name="Optimized Count",unit="Count",value="1.0")
-                 
+
+    def send_saving(self,size):
+        """
+        Send Success to Cloudwatch
+        Metric Name: Optimized Count
+        """
+        self.__send_metric(name="Savings",unit="Kilobytes",value=size/1024)              
 

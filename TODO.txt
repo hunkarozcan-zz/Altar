@@ -1,6 +1,5 @@
 
 - Better Error Handling
-- Send byte difference to cloudwatch 
 - Setup.py
 
 
