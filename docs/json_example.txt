@@ -33,5 +33,13 @@
 
 }
 
+	{
+		"source_bucket": "ino-altar", 
+		"source_path": "originals/IMG_3638.jpg",
+		"overwrite": "True",
+		"backup": "True"
+		"target_quality": "60"
+	}
+
 
 	

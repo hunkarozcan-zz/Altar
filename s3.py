@@ -18,6 +18,17 @@ class s3(object):
         im.tf = tempfile.NamedTemporaryFile(delete=False, suffix=".png")
         b=self.conn.get_bucket(im.source_bucket)
         key=b.get_key("/"+im.source_path)
+        im.acl=key.get_acl()
+        im.metadatas=key.metadata
+
+        # Get file's headers from key
+        im.headers['Cache-Control']=key.cache_control
+        im.headers['Content-Type']=key.content_type
+        im.headers['Content-Encoding']=key.content_encoding
+        im.headers['Content-Disposition']=key.content_disposition
+        im.headers['Content-Language']=key.content_language
+        im.headers['Etag']=key.etag
+      
         
         if key is None:
             logging.error("File not found!")
@@ -41,12 +52,15 @@ class s3(object):
         b=self.conn.get_bucket(im.destination_bucket)
         key=b.new_key("/"+im.destination_path)
         
-        if im.type=="png":
-            key.set_metadata('Content-Type', 'image/png')
-        elif im.type=="jpeg":
-            key.set_metadata('Content-Type', 'image/jpeg')
-       
-        key.set_contents_from_file(open(im.tempFilePath,'rb'))
+        # set all custom metadata
+        for mtd in im.metadatas:
+            key.set_metadata(mtd,im.metadatas[mtd])       
+
+        key.set_contents_from_file(open(im.tempFilePath,'rb'),im.headers)
+        
+        # Set ACL information from source to new file
+        key.set_acl(im.acl)
+
         im.cw.send_metric(name="Uploaded Data",unit="Bytes",value=im.optimized_size)
         logging.info("Upload Complete %s",key)
 

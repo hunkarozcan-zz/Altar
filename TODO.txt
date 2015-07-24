@@ -7,3 +7,4 @@
 
 - Try 2 different Png optimization tools and select best one
 - SNS support
+- Get source file's permissions and metadata and set these when uploading to target.

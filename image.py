@@ -28,6 +28,12 @@ class image():
     target_quality=80;
     conf=app_settings.Config()
     cw=cloudwatch.Cloudwatch()
+    acl=None
+    # Custom Metadata
+    metadatas={}
+    # Http Headers
+    headers={}
+
 
     def __init__(self,json_data):
         j=json.loads(json_data)

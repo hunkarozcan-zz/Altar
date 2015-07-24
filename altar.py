@@ -35,7 +35,7 @@ while True:
                     msg.delete()
                 except Exception as e: 
                     #TODO: Do something meaningful with this
-                    logging.error("Error:"+e)
+                    logging.error("Error:{}".format(e))
                     cw.send_metric(name="Error Count",unit="Count",value="1.0")
                     #raise
             else:
