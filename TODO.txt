@@ -1,7 +1,5 @@
 
 - Better Error Handling
 - Setup.py
-
-
 - Try 2 different Png optimization tools and select best one
-- SNS support
+

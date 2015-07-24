@@ -5,6 +5,7 @@ import logging
 import cloudwatch
 import s3
 import signal
+import sns
 
 def signal_handler(signal, frame):
     print("\nEt tu, Brute?")
@@ -14,6 +15,7 @@ conf=app_settings.Config()
 qu=sqs.Sqs()
 cw=cloudwatch.Cloudwatch()
 as3=s3.s3()
+notification=sns.sns()
 
 logging.basicConfig(
     filename='altar.log',
@@ -36,6 +38,7 @@ while True:
                         logging.info("Optimization is a success. Uploading...")
                         as3.upload(img)
                         cw.send_ok()
+                        notification.publish("Optimized:{}".format(img.id),"Image is optimized by %{}".format(img.percentage))
                     else:
                         logging.warning("No need to Upload")
 
