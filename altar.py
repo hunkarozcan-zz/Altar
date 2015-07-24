@@ -4,6 +4,11 @@ import image
 import logging
 import cloudwatch
 import s3
+import signal
+
+def signal_handler(signal, frame):
+    print("You pressed Ctrl+C!")
+    exit()
 
 conf=app_settings.Config()
 qu=sqs.Sqs()
@@ -15,6 +20,8 @@ logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(name)s - %(message)s')
 logging.info('Altar Started')
+
+signal.signal(signal.SIGINT, signal_handler)
 
 while True:
 
@@ -40,6 +47,9 @@ while True:
                     #raise
             else:
                 logging.error("Couldn't download File")
+    except(KeyboardInterrupt, SystemExit):
+        logging.info('Altar terminated by user')
+        raise
     except:
         logging.error("Couldn't get messages")
         raise
