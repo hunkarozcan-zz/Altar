@@ -5,6 +5,7 @@ import logging
 
 
 class Sqs:
+    """Manages Sqs operations"""
     def __init__(self):
         
         conf=app_settings.Config()
