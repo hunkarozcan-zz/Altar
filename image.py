@@ -43,7 +43,8 @@ class image():
         self.overwrite=j.get("overwrite",False)
         self.backup=j.get("backup",True)
         self.target_quality=j.get("target_quality",80)
-        
+        self.headers=j.get("headers",{})
+
         if self.overwrite:
             logging.info("Set to Overwrite!")
             self.destination_bucket=self.source_bucket

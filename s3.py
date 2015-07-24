@@ -21,13 +21,14 @@ class s3(object):
         im.acl=key.get_acl()
         im.metadatas=key.metadata
 
-        # Get file's headers from key
-        im.headers['Cache-Control']=key.cache_control
-        im.headers['Content-Type']=key.content_type
-        im.headers['Content-Encoding']=key.content_encoding
-        im.headers['Content-Disposition']=key.content_disposition
-        im.headers['Content-Language']=key.content_language
-        im.headers['Etag']=key.etag
+        if len(im.headers) == 0: 
+            # if there are no http headers set by user, set them from source
+            im.headers['Cache-Control']=key.cache_control
+            im.headers['Content-Type']=key.content_type
+            im.headers['Content-Encoding']=key.content_encoding
+            im.headers['Content-Disposition']=key.content_disposition
+            im.headers['Content-Language']=key.content_language
+            im.headers['Etag']=key.etag
       
         
         if key is None:

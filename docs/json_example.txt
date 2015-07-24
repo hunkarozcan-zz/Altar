@@ -39,6 +39,11 @@
 		"overwrite": "True",
 		"backup": "True"
 		"target_quality": "60"
+		"headers": 
+			{
+			"Cache-Control": "max-age=6500",
+			"Expires": "Fri, 27 Nov 1979 02:10:38 GMT"    
+			}
 	}
 
 
