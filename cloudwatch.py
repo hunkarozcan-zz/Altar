@@ -2,7 +2,7 @@
 import app_settings
 import logging
 class Cloudwatch(object):
-    """description of class"""
+    """Class to Send custom metrics to CloudWatch"""
 
     
     
