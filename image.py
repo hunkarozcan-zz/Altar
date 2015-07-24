@@ -46,62 +46,11 @@ class image():
             self.destination_bucket=j.get("destination_bucket","")
             self.destination_path=j.get("destination_path","")
 
-    def downloadFromS3(self):
-        conn=self.connectToS3()
-        # set tempfile suffix to .png whether file is png or not because of PngOptimizerCL's weird suffix check. :/
-        self.tf = tempfile.NamedTemporaryFile(delete=False, suffix=".png")
-        b=conn.get_bucket(self.source_bucket)
-        key=b.get_key("/"+self.source_path)
-        
-        if key is None:
-            logging.error("File not found!")
-            return False
-        else:
-            key.get_contents_to_file(self.tf)
-            self.size = self.tf.tell()
-            self.tf.seek(0)
-            logging.info("Image downloaded:%s - %s",self.size,self.tf.name)
-            self.tempFilePath=self.tf.name
-            self.tf.close()
-            print(self.tf.name)
-            self.cw.send_metric(name="Downloaded Data",unit="Bytes",value=self.size)
-            return True
-
-    def uploadToS3(self):
-        if self.backup:
-            self.backupFile()
-        logging.info('Starting Upload...')
-        conn=self.connectToS3()
-
-        b=conn.get_bucket(self.destination_bucket)
-        key=b.new_key("/"+self.destination_path)
-        
-        if self.type=="png":
-            key.set_metadata('Content-Type', 'image/png')
-        elif self.type=="jpeg":
-            key.set_metadata('Content-Type', 'image/jpeg')
-
-        
-        key.set_contents_from_file(open(self.tempFilePath,'rb'))
-        self.cw.send_metric(name="Uploaded Data",unit="Bytes",value=self.optimized_size)
-        logging.info("Upload Complete %s",key)
-        
-
-    def connectToS3(self):
-        c = boto.connect_s3()
-        return c
-
+ 
+    #TODO: Move to helper class
     def replace_last(self, source_string, replace_what, replace_with):
         head, sep, tail = source_string.rpartition(replace_what)
         return head + replace_with + tail
-
-    def backupFile(self):
-        backupDir=self.replace_last(self.destination_path,"/","/backup/")
-        logging.info("Need Backup, Backing Up to <%s>",backupDir)
-        conn=self.connectToS3()
-        b=conn.get_bucket(self.destination_bucket)
-        key=b.copy_key(backupDir,self.source_bucket,self.source_path)
-        logging.info("Copied %s",key)
 
     def check_results(self):
         logging.info("Checking Results")
