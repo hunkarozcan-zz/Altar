@@ -31,6 +31,9 @@ class s3(object):
             im.headers['Content-Disposition']=key.content_disposition
             im.headers['Content-Language']=key.content_language
             im.headers['Etag']=key.etag
+
+            # delete noneType values
+            im.headers={k: v for k, v in im.headers.items() if v!=None}
       
         
         if key is None:

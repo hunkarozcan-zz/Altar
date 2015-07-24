@@ -53,6 +53,7 @@ class image():
             self.destination_bucket=j.get("destination_bucket","")
             self.destination_path=j.get("destination_path","")
 
+        self.id=self.id or self.name or (self.source_bucket+"/"+self.source_path)
  
     #TODO: Move to helper class
     def replace_last(self, source_string, replace_what, replace_with):
@@ -95,6 +96,7 @@ class image():
                 raise ValueError('Unsupported file type: {}'.format(img_type))
         except Exception as e:
             logging.error(e)
+            raise
 
         logging.info("Optimization result:"+f.decode("utf-8"))
         self.optimized_size=os.path.getsize(self.tf.name)
