@@ -1,6 +1,5 @@
 
 - Better Error Handling
-- Handle keyboard interrupt
 - Send byte difference to cloudwatch 
 - Setup.py
 
