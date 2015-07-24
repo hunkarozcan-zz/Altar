@@ -38,7 +38,7 @@ while True:
                         logging.info("Optimization is a success. Uploading...")
                         as3.upload(img)
                         cw.send_ok()
-                        notification.publish("Optimized:{}".format(img.id),"Image is optimized by %{}".format(img.percentage))
+                        notification.publish("Optimized:{}".format(img.id),"Image is optimized to %{} of it's original size".format(img.percentage))
                     else:
                         logging.warning("No need to Upload")
 
