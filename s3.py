@@ -3,14 +3,16 @@ import app_settings
 import image
 import tempfile
 import logging
+import cloudwatch
 
 class s3(object):
     """Manages s3 operations like download, upload, backup etc."""
 
+    cw=cloudwatch.Cloudwatch()
     def __init__(self):
         conf=app_settings.Config()
         self.conn = boto.connect_s3()
-
+        
             
     def download(self, im):
         
@@ -39,10 +41,10 @@ class s3(object):
             im.size = im.tf.tell()
             im.tf.seek(0)
             logging.info("Image downloaded:%s - %s",im.size,im.tf.name)
+            self.cw.send_download(im.size)
             im.tempFilePath=im.tf.name
             im.tf.close()
             print(im.tf.name)
-            im.cw.send_metric(name="Downloaded Data",unit="Bytes",value=im.size)
             return True
 
     def upload(self,im):
@@ -62,7 +64,7 @@ class s3(object):
         # Set ACL information from source to new file
         key.set_acl(im.acl)
 
-        im.cw.send_metric(name="Uploaded Data",unit="Bytes",value=im.optimized_size)
+        self.cw.send_upload(im.optimized_size)
         logging.info("Upload Complete %s",key)
 
     def backupFile(self,im):

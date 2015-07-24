@@ -35,7 +35,7 @@ while True:
                     if img.check_results():
                         logging.info("Optimization is a success. Uploading...")
                         as3.upload(img)
-                        cw.send_metric(name="Optimized Count",unit="Count",value="1.0")
+                        cw.send_ok()
                     else:
                         logging.warning("No need to Upload")
 
@@ -43,7 +43,7 @@ while True:
                 except Exception as e: 
                     #TODO: Do something meaningful with this
                     logging.error("Error:{}".format(e))
-                    cw.send_metric(name="Error Count",unit="Count",value="1.0")
+                    cw.send_error()
                     #raise
             else:
                 logging.error("Couldn't download File")
