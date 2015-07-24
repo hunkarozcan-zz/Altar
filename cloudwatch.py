@@ -20,14 +20,14 @@ class Cloudwatch(object):
    
     def send_upload(self,size):
         """
-        Send Uploaded file size info to Cloudwatch
+        Send Uploaded file size in bytes
         Metric Name: Uploaded Data
         """
         self.__send_metric(name="Uploaded Data",unit="Bytes",value=size)
 
     def send_download(self,size):
         """
-        Send Downloaded file size info to Cloudwatch
+        Send Downloaded file size info in bytes
         Metric Name: Downloaded Data
         """
         self.__send_metric(name="Downloaded Data",unit="Bytes",value=size)
