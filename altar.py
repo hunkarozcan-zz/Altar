@@ -7,7 +7,7 @@ import s3
 import signal
 
 def signal_handler(signal, frame):
-    print("You pressed Ctrl+C!")
+    print("\nEt tu, Brute?")
     exit()
 
 conf=app_settings.Config()
