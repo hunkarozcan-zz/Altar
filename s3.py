@@ -5,7 +5,7 @@ import tempfile
 import logging
 import cloudwatch
 
-class s3(object):
+class S3(object):
     """Manages s3 operations like download, upload, backup etc."""
 
     cw=cloudwatch.Cloudwatch()

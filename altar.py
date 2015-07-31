@@ -14,8 +14,8 @@ def signal_handler(signal, frame):
 conf=app_settings.Config()
 qu=sqs.Sqs()
 cw=cloudwatch.Cloudwatch()
-as3=s3.s3()
-notification=sns.sns()
+as3=s3.S3()
+notification=sns.Sns()
 
 logging.basicConfig(
     filename='altar.log',

@@ -2,7 +2,7 @@
 import boto.sns
 import logging
 
-class sns(object):
+class Sns(object):
     """Handles Simple Notification Service operations for Altar"""
 
     
