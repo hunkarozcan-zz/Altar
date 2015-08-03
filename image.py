@@ -9,7 +9,6 @@ import os
 import imghdr
 import cloudwatch
 
-
 class image():
     id=""
     name=""
@@ -33,10 +32,11 @@ class image():
     metadatas={}
     # Http Headers
     headers={}
-
+    message=""
 
     def __init__(self,json_data):
         j=json.loads(json_data)
+        self.message=json_data
         logging.info("Image Initializing from data:%s",j)
         self.source_bucket=j["source_bucket"]
         self.source_path=j["source_path"]
